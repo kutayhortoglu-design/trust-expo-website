@@ -21,13 +21,16 @@ hero_web = hero.resize((1600, 1600), Image.LANCZOS)
 # Crop to 16:9 around the wall for the wide hero background.
 hero_wide = hero_web.crop((0, 250, 1600, 1150))
 hero_wide.save(img_dir / "hero-led-wall.jpg", quality=82, optimize=True, progressive=True)
+# The page uses WebP (smaller); the JPGs stay for anything that links them directly.
+hero_wide.save(img_dir / "hero-led-wall.webp", quality=72, method=6)
 
 # Open Graph image 1200x630 (referenced in meta tags but missing on the live site).
 og = hero_web.crop((0, 300, 1600, 1140)).resize((1200, 630), Image.LANCZOS)
 og.save(img_dir.parent / "og-image.jpg", quality=85, optimize=True)
 
 led = Image.open(img_dir / "source" / "led-closeup-orig.png").convert("RGB")
-led.resize((1024, 1024), Image.LANCZOS).save(
-    img_dir / "led-closeup.jpg", quality=82, optimize=True, progressive=True
-)
+led_web = led.resize((1024, 1024), Image.LANCZOS)
+led_web.save(img_dir / "led-closeup.jpg", quality=82, optimize=True, progressive=True)
+led_web.save(img_dir / "led-closeup.webp", quality=75, method=6)
+led.resize((640, 640), Image.LANCZOS).save(img_dir / "led-closeup-640.webp", quality=75, method=6)
 print("ok")

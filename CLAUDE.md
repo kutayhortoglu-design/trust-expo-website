@@ -31,12 +31,18 @@
 - [x] Görseller repoya alındı (`images/`), hero görselindeki bozuk AI yazısı temizlendi, `og-image.jpg` eklendi
 - [x] Teklif formu eklendi (`/api/quote` → Brevo API → sales@trust-expo.com)
 - [x] İç dosyaların (CLAUDE.md, .md planlar, Stitch klasörü vb.) siteden servis edilmesi engellendi (`functions/_middleware.js`)
+- [x] Logo/favicon seti (LED panel ızgarasından "T"), menü ve footer'da logo (10 Kasım 2026)
+- [x] Teknik SEO: robots.txt, sitemap.xml, 404 sayfası, www → apex 301, canonical `https://trust-expo.com/`, FAQ bölümü + FAQPage/Service schema
+- [x] Performans: Tailwind CDN yerine derlenmiş CSS, WebP görseller, fontlar sayfayı bloklamıyor (Lighthouse yerelde 100/100/100/100)
 
 ## Bekleyen Adımlar
 - [ ] Fatih abi ile görüşme (fiyatlama, teknik doğrulama, komisyon yapısı)
 - [ ] Sitedeki iddiaları Fatih ile doğrula: £5M Public Liability Insurance, "NEC'e 20 dk", Novastar processor, 160°/140° görüş açısı
 - [x] Cloudflare Pages'e `BREVO_API_KEY` secret'ı eklendi, form canlıda test edildi (10 Kasım 2026)
 - [ ] GitHub reposunu private yapmayı değerlendir (CLAUDE.md, outreach listesi ve planlar şu an herkese açık)
+- [ ] Google Search Console: domain doğrula (Cloudflare DNS TXT), sitemap gönder
+- [ ] Google Business Profile aç (hizmet bölgesi işletmesi, adres gizli olabilir)
+- [ ] Backlink/listeleme: NEC exhibitor hizmet sağlayıcıları, fuar organizatörleri, yerel iş dizinleri
 - [ ] Gerçek LED wall fotoğrafları çekilince AI görsellerini değiştir (mevcut kaynaklar sadece 512×512)
 - [ ] Figma spec sheet son düzeltmeleri (LED wall görseli, NEC Birmingham notu, fiyatlar)
 - [ ] Exhibitor listesi genişletme (Autumn Fair + diğer fuarlar)
@@ -68,12 +74,16 @@
 
 ## Website (trust-expo.com)
 - **Hosting:** Cloudflare Pages, repo kökünden yayınlanıyor (build yok, statik HTML). GitHub: kutayhortoglu-design/trust-expo-website, dal `master`.
-- **Dikkat:** Repo kökündeki her dosya siteye yüklenir. Gizli kalması gerekenler `functions/_middleware.js` ile 404'e çevriliyor (`.md`, `.py`, nokta ile başlayan dosyalar, `functions/`, `images/source/`, `Trust-Expo Stitch/`, `email_signature.html`). Yeni iç dosya eklerken bu listeyi kontrol et.
-- **Stil:** Tailwind CDN + Stitch tasarım token'ları (`index.html` içindeki `tailwind.config`). Tasarım kuralları: `Trust-Expo Stitch/DESIGN.md` (git'e eklenmedi).
+- **Dikkat:** Repo kökündeki her dosya siteye yüklenir. Gizli kalması gerekenler `functions/_middleware.js` ile 404'e çevriliyor (`.md`, `.py`, nokta ile başlayan dosyalar, `functions/`, `images/source/`, `tools/`, `Trust-Expo Stitch/`, `email_signature.html`). Yeni iç dosya eklerken bu listeyi kontrol et.
+- **Stil:** Tailwind v3, önceden derlenmiş `assets/styles.css` (repoya commit'li, Cloudflare'de build yok). Config ve kaynak: `tools/`. **HTML'de class değiştirince:** `cd tools && npm install && npm run build` (CSS'i derler ve `styles.css?v=<hash>` sürümünü HTML'e yazar). Tasarım kuralları: `Trust-Expo Stitch/DESIGN.md` (git'e eklenmedi).
+- **Not:** `rounded-DEFAULT` sınıfı Tailwind'de yok (0px köşe); canlı sitede de öyleydi, görünüm bu haliyle onaylı.
+- **SEO:** canonical adres `https://trust-expo.com/` (www → 301). Meta/OG/JSON-LD `index.html` <head> içinde. SSS cevapları ile FAQPage schema aynı metni kullanmalı. Yeni sayfa eklenirse `sitemap.xml`'e ekle.
+- **Önbellek:** `functions/_middleware.js` görsellere 30 gün, sürümlü CSS'e 1 yıl cache-control veriyor.
+- **Logo:** `favicon.svg/.ico`, `apple-touch-icon.png`, `icon-192/512.png`, `images/logo-mark-512.png`; üretici `images/source/make_icons.py`. Menü/footer/404'teki logo inline SVG.
 - **Teklif formu:** `index.html` #contact → `functions/api/quote.js`. Brevo transactional API ile mail atar, reply-to müşterinin adresi. Honeypot alanı (`website`) ile basit spam koruması. Env: `BREVO_API_KEY` (secret, zorunlu), `QUOTE_TO_EMAIL` (opsiyonel).
   - `BREVO_API_KEY` bir **API key**'dir (`xkeysib-…`, Brevo → SMTP & API → API Keys). Gmail'in kullandığı SMTP key (`xsmtpsib-…`) ile karıştırma.
   - Cloudflare'de değişken ekleyip/değiştirdikten sonra **yeni deploy** gerekir (Retry deployment veya boş commit push).
-- **Görseller:** `images/hero-led-wall.jpg`, `images/led-closeup.jpg`, kökte `og-image.jpg`. Orijinaller ve işleme script'i `images/source/`.
+- **Görseller:** sayfa WebP kullanır (`images/hero-led-wall.webp`, `images/led-closeup*.webp`); JPG'ler yedek, kökte `og-image.jpg`. Orijinaller ve işleme script'i `images/source/`.
 - **Yerel test:** `npx wrangler@4 pages dev . --port 8788 --binding BREVO_API_KEY=...`
 
 ## Dosyalar

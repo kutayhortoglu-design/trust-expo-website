@@ -1,0 +1,15 @@
+{
+  "name": "trust-expo-site-tools",
+  "private": true,
+  "description": "Build tooling for trust-expo.com. The site itself is static; run `npm run build:css` after changing classes in the HTML.",
+  "scripts": {
+    "build": "npm run build:css && node stamp-version.js",
+    "build:css": "tailwindcss -c tailwind.config.js -i input.css -o ../assets/styles.css --minify",
+    "watch:css": "tailwindcss -c tailwind.config.js -i input.css -o ../assets/styles.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/container-queries": "0.1.1",
+    "@tailwindcss/forms": "0.5.9",
+    "tailwindcss": "3.4.17"
+  }
+}
