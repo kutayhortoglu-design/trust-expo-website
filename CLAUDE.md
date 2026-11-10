@@ -33,6 +33,7 @@
 - [x] İç dosyaların (CLAUDE.md, .md planlar, Stitch klasörü vb.) siteden servis edilmesi engellendi (`functions/_middleware.js`)
 - [x] Logo/favicon seti (LED panel ızgarasından "T"), menü ve footer'da logo (10 Kasım 2026)
 - [x] Teknik SEO: robots.txt, sitemap.xml, 404 sayfası, www → apex 301, canonical `https://trust-expo.com/`, FAQ bölümü + FAQPage/Service schema
+- [x] Hero yeniden tasarlandı: tam ekran stok fotoğraf, yeni başlık, mavi gradient CTA + "View Packages", 3 güven maddesi
 - [x] Performans: Tailwind CDN yerine derlenmiş CSS, WebP görseller, fontlar sayfayı bloklamıyor (Lighthouse yerelde 100/100/100/100)
 
 ## Bekleyen Adımlar
@@ -44,7 +45,7 @@
 - [ ] Search Console: `https://trust-expo.com/sitemap.xml` gönderildiğini ve sayfanın indekslendiğini kontrol et
 - [ ] Google Business Profile aç (hizmet bölgesi işletmesi, adres gizli olabilir)
 - [ ] Backlink/listeleme: NEC exhibitor hizmet sağlayıcıları, fuar organizatörleri, yerel iş dizinleri
-- [ ] Gerçek LED wall fotoğrafları çekilince AI görsellerini değiştir (mevcut kaynaklar sadece 512×512)
+- [ ] Gerçek LED wall fotoğrafları çekilince hero stok fotoğrafını ve Specs bölümündeki AI görselini (512×512) değiştir
 - [ ] Figma spec sheet son düzeltmeleri (LED wall görseli, NEC Birmingham notu, fiyatlar)
 - [ ] Exhibitor listesi genişletme (Autumn Fair + diğer fuarlar)
 - [ ] Outreach başlatma (ilk dalga 50 firma)
@@ -84,7 +85,8 @@
 - **Teklif formu:** `index.html` #contact → `functions/api/quote.js`. Brevo transactional API ile mail atar, reply-to müşterinin adresi. Honeypot alanı (`website`) ile basit spam koruması. Env: `BREVO_API_KEY` (secret, zorunlu), `QUOTE_TO_EMAIL` (opsiyonel).
   - `BREVO_API_KEY` bir **API key**'dir (`xkeysib-…`, Brevo → SMTP & API → API Keys). Gmail'in kullandığı SMTP key (`xsmtpsib-…`) ile karıştırma.
   - Cloudflare'de değişken ekleyip/değiştirdikten sonra **yeni deploy** gerekir (Retry deployment veya boş commit push).
-- **Görseller:** sayfa WebP kullanır (`images/hero-led-wall.webp`, `images/led-closeup*.webp`); JPG'ler yedek, kökte `og-image.jpg`. Orijinaller ve işleme script'i `images/source/`.
+- **Hero fotoğrafı:** Unsplash stok fotoğrafı (Wang Binghua, "Child walking toward large ocean screen", unsplash.com/photos/9QZWicWowTQ, Unsplash License: ticari kullanım serbest, atıf zorunlu değil). Dosyalar `images/hero-stage-{800,1440,2400}.webp`, orijinal `images/source/`. `og-image.jpg` da bundan üretildi. Gerçek iş fotoğrafı olunca değiştir.
+- **Görseller:** sayfa WebP kullanır (`images/led-closeup*.webp`); `images/hero-led-wall.*` eski AI görseli, artık kullanılmıyor. Orijinaller ve işleme script'i `images/source/`.
 - **Yerel test:** `npx wrangler@4 pages dev . --port 8788 --binding BREVO_API_KEY=...`
 
 ## Dosyalar

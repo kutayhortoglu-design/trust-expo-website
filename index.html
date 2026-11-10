@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://trust-expo.com/og-image.jpg"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
-<meta property="og:image:alt" content="Large LED video wall at an exhibition hall"/>
+<meta property="og:image:alt" content="Large LED video wall showing ocean footage with a visitor walking towards it"/>
 <meta property="og:locale" content="en_GB"/>
 <meta property="og:site_name" content="Trust Expo"/>
 
@@ -151,9 +151,9 @@
 }
 </script>
 
-<!-- Performance: hero image is the largest element, fetch it first -->
-<link rel="preload" as="image" href="/images/hero-led-wall.webp" type="image/webp" fetchpriority="high"/>
-<link rel="stylesheet" href="/assets/styles.css?v=94ae76129b"/>
+<!-- Performance: the hero photo is the largest element, fetch it first -->
+<link rel="preload" as="image" href="/images/hero-stage-1440.webp" imagesrcset="/images/hero-stage-800.webp 800w, /images/hero-stage-1440.webp 1440w, /images/hero-stage-2400.webp 2400w" imagesizes="100vw" type="image/webp" fetchpriority="high"/>
+<link rel="stylesheet" href="/assets/styles.css?v=ed7e11c5e9"/>
 
 <!-- Fonts load without blocking the first paint -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -211,27 +211,46 @@
 </nav>
 
 <!-- HERO -->
-<section class="relative bg-surface-dark text-on-primary min-h-[90vh] flex items-center pt-20" style="background-image: linear-gradient(to right, rgba(17, 24, 39, 0.95), rgba(17, 24, 39, 0.8)), url('/images/hero-led-wall.webp'); background-size: cover; background-position: center;">
-    <div class="max-w-container-max mx-auto px-margin-mobile md:px-gutter relative z-10 w-full">
-        <div class="max-w-3xl">
-            <div class="inline-flex items-center space-x-2 bg-surface-light/10 border border-surface-light/20 rounded-full px-4 py-1.5 mb-6 backdrop-blur-sm">
-                <span class="w-2 h-2 rounded-full bg-accent-amber animate-pulse"></span>
-                <span class="font-label-bold text-label-bold text-surface-light">UK Exhibition Specialists</span>
+<section class="relative overflow-hidden bg-[#0a0f1d] text-white pt-32 pb-24 md:pt-40 md:pb-32 lg:min-h-[92vh] lg:flex lg:items-center">
+    <img src="/images/hero-stage-1440.webp"
+         srcset="/images/hero-stage-800.webp 800w, /images/hero-stage-1440.webp 1440w, /images/hero-stage-2400.webp 2400w"
+         sizes="100vw" alt="Visitor walking towards a large LED video wall showing ocean footage"
+         class="absolute inset-0 h-full w-full object-cover object-[65%_center]" fetchpriority="high" decoding="async" width="2400" height="1600"/>
+    <div class="absolute inset-0 bg-gradient-to-r from-[#0a0f1d]/95 via-[#0a0f1d]/80 to-[#0a0f1d]/55 lg:from-[#0a0f1d]/95 lg:via-[#0a0f1d]/70 lg:to-[#0a0f1d]/10" aria-hidden="true"></div>
+    <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0a0f1d]/70 to-transparent" aria-hidden="true"></div>
+    <div class="relative max-w-container-max mx-auto px-margin-mobile md:px-gutter w-full">
+        <div class="max-w-2xl">
+
+            <!-- Copy -->
+            <div>
+                <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 mb-7 backdrop-blur-sm">
+                    <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-amber opacity-70"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-accent-amber"></span></span>
+                    <span class="text-sm font-semibold tracking-wide text-slate-200">UK Exhibition Specialists</span>
+                </div>
+                <h1 class="text-[40px] leading-[1.08] sm:text-5xl lg:text-[58px] font-extrabold tracking-tight mb-6">
+                    Premium <span class="text-gradient">LED Video Wall</span> Hire for Exhibitions
+                </h1>
+                <p class="text-lg md:text-xl leading-relaxed text-slate-300 mb-9 max-w-xl">
+                    Make your exhibition stand unmissable with crystal-clear P1.8 LED walls. Delivery, installation &amp; support included.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-10">
+                    <a href="#contact" class="group inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-b from-blue-500 to-blue-700 px-7 py-4 text-base font-semibold text-white shadow-lg shadow-blue-700/40 ring-1 ring-inset ring-white/20 transition hover:from-blue-400 hover:to-blue-600 hover:shadow-blue-600/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300">
+                        Get a Free Quote
+                        <svg class="h-5 w-5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638l-3.96-3.72a.75.75 0 1 1 1.026-1.094l5.25 4.93a.75.75 0 0 1 0 1.094l-5.25 4.93a.75.75 0 1 1-1.026-1.094l3.96-3.72H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/></svg>
+                    </a>
+                    <a href="#packages" class="inline-flex items-center justify-center rounded-lg border border-white/20 bg-white/5 px-7 py-4 text-base font-semibold text-white backdrop-blur-sm transition hover:bg-white/10 hover:border-white/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50">
+                        View Packages
+                    </a>
+                </div>
+                <ul class="flex flex-col sm:flex-row sm:flex-wrap gap-x-6 gap-y-3 text-sm text-slate-300">
+                    <li class="flex items-center gap-2"><svg class="h-5 w-5 flex-shrink-0 text-accent-amber" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd"/></svg>Delivery &amp; setup included</li>
+                    <li class="flex items-center gap-2"><svg class="h-5 w-5 flex-shrink-0 text-accent-amber" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd"/></svg>Sharp P1.8 panels</li>
+                    <li class="flex items-center gap-2"><svg class="h-5 w-5 flex-shrink-0 text-accent-amber" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd"/></svg>Quote within 24 hours</li>
+                </ul>
             </div>
-            <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-surface-light mb-6">
-                Premium LED Video Wall Hire
-            </h1>
-            <p class="font-body-lg text-body-lg text-surface-dim mb-10 max-w-2xl">
-                Make your exhibition stand unmissable with crystal-clear P1.8 LED walls. Delivery, installation &amp; support included.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4">
-                <a class="inline-flex items-center justify-center bg-accent-amber text-text-primary font-label-bold px-8 py-4 rounded-DEFAULT hover:bg-accent-amber/90 transition-all shadow-[0_4px_14px_0_rgba(245,158,11,0.39)] hover:shadow-[0_6px_20px_rgba(245,158,11,0.23)] hover:-translate-y-0.5" href="#contact">
-                    Get a Free Quote
-                </a>
-            </div>
+
         </div>
     </div>
-    <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-surface-dark to-transparent"></div>
 </section>
 
 <!-- WHY LED? -->
@@ -557,7 +576,7 @@
                         <label for="q-website">Website</label>
                         <input id="q-website" name="website" type="text" tabindex="-1" autocomplete="off"/>
                     </div>
-                    <button id="quote-submit" type="submit" class="w-full inline-flex items-center justify-center bg-accent-amber text-text-primary font-label-bold px-10 py-4 rounded-DEFAULT hover:bg-[#dd8e0a] transition-colors shadow-[0_4px_14px_0_rgba(245,158,11,0.39)] text-lg disabled:opacity-60 disabled:cursor-wait">
+                    <button id="quote-submit" type="submit" class="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-b from-blue-500 to-blue-700 px-10 py-4 text-lg font-semibold text-white shadow-lg shadow-blue-700/30 ring-1 ring-inset ring-white/20 transition hover:from-blue-400 hover:to-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 disabled:opacity-60 disabled:cursor-wait">
                         Request My Free Quote
                     </button>
                     <p id="quote-status" role="status" aria-live="polite" class="hidden text-center font-body-md text-body-md"></p>
