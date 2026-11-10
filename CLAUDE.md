@@ -31,7 +31,7 @@
 - [x] Görseller repoya alındı (`images/`), hero görselindeki bozuk AI yazısı temizlendi, `og-image.jpg` eklendi
 - [x] Teklif formu eklendi (`/api/quote` → Brevo API → sales@trust-expo.com)
 - [x] İç dosyaların (CLAUDE.md, .md planlar, Stitch klasörü vb.) siteden servis edilmesi engellendi (`functions/_middleware.js`)
-- [x] Logo/favicon seti (LED panel ızgarasından "T"), menü ve footer'da logo (10 Kasım 2026)
+- [x] Logo/favicon seti (LED panel ızgarasından "T"), favicon olarak kullanılıyor (10 Kasım 2026)
 - [x] Teknik SEO: robots.txt, sitemap.xml, 404 sayfası, www → apex 301, canonical `https://trust-expo.com/`, FAQ bölümü + FAQPage/Service schema
 - [x] Hero yeniden tasarlandı: tam ekran stok fotoğraf, yeni başlık, mavi gradient CTA + "View Packages", 3 güven maddesi
 - [x] Performans: Tailwind CDN yerine derlenmiş CSS, WebP görseller, fontlar sayfayı bloklamıyor (Lighthouse yerelde 100/100/100/100)
@@ -81,7 +81,7 @@
 - **Not:** `rounded-DEFAULT` sınıfı Tailwind'de yok (0px köşe); canlı sitede de öyleydi, görünüm bu haliyle onaylı.
 - **SEO:** canonical adres `https://trust-expo.com/` (www → 301). Meta/OG/JSON-LD `index.html` <head> içinde. SSS cevapları ile FAQPage schema aynı metni kullanmalı. Yeni sayfa eklenirse `sitemap.xml`'e ekle.
 - **Önbellek:** `functions/_middleware.js` görsellere 30 gün, sürümlü CSS'e 1 yıl cache-control veriyor.
-- **Logo:** `favicon.svg/.ico`, `apple-touch-icon.png`, `icon-192/512.png`, `images/logo-mark-512.png`; üretici `images/source/make_icons.py`. Menü/footer/404'teki logo inline SVG.
+- **Logo:** `favicon.svg/.ico`, `apple-touch-icon.png`, `icon-192/512.png`, `images/logo-mark-512.png`; üretici `images/source/make_icons.py`. Sitede (menü/footer/404) logo işareti kullanılmıyor, sadece "Trust Expo" yazısı var (kullanıcı tercihi); işaret yalnızca favicon olarak duruyor.
 - **Teklif formu:** `index.html` #contact → `functions/api/quote.js`. Brevo transactional API ile mail atar, reply-to müşterinin adresi. Honeypot alanı (`website`) ile basit spam koruması. Env: `BREVO_API_KEY` (secret, zorunlu), `QUOTE_TO_EMAIL` (opsiyonel).
   - `BREVO_API_KEY` bir **API key**'dir (`xkeysib-…`, Brevo → SMTP & API → API Keys). Gmail'in kullandığı SMTP key (`xsmtpsib-…`) ile karıştırma.
   - Cloudflare'de değişken ekleyip/değiştirdikten sonra **yeni deploy** gerekir (Retry deployment veya boş commit push).
