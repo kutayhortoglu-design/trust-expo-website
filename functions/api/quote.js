@@ -60,7 +60,9 @@ export async function onRequestPost({ request, env }) {
 
   const data = {};
   for (const [key, max] of Object.entries(LIMITS)) data[key] = clean(raw[key], max);
-  if (!PACKAGES.includes(data.package)) data.package = "Not sure yet";
+  // Match on the first word so encoding differences in "m²" can't drop the choice.
+  const firstWord = data.package.split(/\s/)[0].toLowerCase();
+  data.package = PACKAGES.find((p) => p.split(/\s/)[0].toLowerCase() === firstWord) || "Not sure yet";
 
   const errors = {};
   if (!data.name) errors.name = "Please enter your name.";
