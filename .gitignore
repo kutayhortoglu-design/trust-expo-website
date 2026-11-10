@@ -2,3 +2,7 @@
 website_content.md
 stitch_prompt.md
 DESIGN.md
+
+.wrangler/
+node_modules/
+Trust-Expo Stitch/

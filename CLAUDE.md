@@ -26,11 +26,19 @@
 - [x] Spec sheet taslağı hazırlandı (Trust_Expo_Spec_Sheet.md)
 - [x] Figma'da spec sheet tasarımı başlatıldı (küçük düzeltmeler kaldı)
 - [x] Outreach mail template'leri hazırlandı
+- [x] Website yayında: trust-expo.com (Stitch tasarımı → `index.html`, Cloudflare Pages)
+- [x] SEO meta etiketleri, Open Graph, Schema.org eklendi
+- [x] Görseller repoya alındı (`images/`), hero görselindeki bozuk AI yazısı temizlendi, `og-image.jpg` eklendi
+- [x] Teklif formu eklendi (`/api/quote` → Brevo API → sales@trust-expo.com)
+- [x] İç dosyaların (CLAUDE.md, .md planlar, Stitch klasörü vb.) siteden servis edilmesi engellendi (`functions/_middleware.js`)
 
 ## Bekleyen Adımlar
 - [ ] Fatih abi ile görüşme (fiyatlama, teknik doğrulama, komisyon yapısı)
+- [ ] Sitedeki iddiaları Fatih ile doğrula: £5M Public Liability Insurance, "NEC'e 20 dk", Novastar processor, 160°/140° görüş açısı
+- [ ] Cloudflare Pages'e `BREVO_API_KEY` secret'ını ekle (yoksa form "not configured" hatası verir)
+- [ ] GitHub reposunu private yapmayı değerlendir (CLAUDE.md, outreach listesi ve planlar şu an herkese açık)
+- [ ] Gerçek LED wall fotoğrafları çekilince AI görsellerini değiştir (mevcut kaynaklar sadece 512×512)
 - [ ] Figma spec sheet son düzeltmeleri (LED wall görseli, NEC Birmingham notu, fiyatlar)
-- [ ] Website oluşturma (Google Sites tasarım + Cloudflare'de domain yönlendirme)
 - [ ] Exhibitor listesi genişletme (Autumn Fair + diğer fuarlar)
 - [ ] Outreach başlatma (ilk dalga 50 firma)
 - [ ] Pricing matrix oluşturma (Fatih ile)
@@ -58,7 +66,17 @@
 - Spec sheet PDF ek olarak eklenmeli
 - Signature Gmail'de otomatik ekleniyor
 
+## Website (trust-expo.com)
+- **Hosting:** Cloudflare Pages, repo kökünden yayınlanıyor (build yok, statik HTML). GitHub: kutayhortoglu-design/trust-expo-website, dal `master`.
+- **Dikkat:** Repo kökündeki her dosya siteye yüklenir. Gizli kalması gerekenler `functions/_middleware.js` ile 404'e çevriliyor (`.md`, `.py`, nokta ile başlayan dosyalar, `functions/`, `images/source/`, `Trust-Expo Stitch/`, `email_signature.html`). Yeni iç dosya eklerken bu listeyi kontrol et.
+- **Stil:** Tailwind CDN + Stitch tasarım token'ları (`index.html` içindeki `tailwind.config`). Tasarım kuralları: `Trust-Expo Stitch/DESIGN.md` (git'e eklenmedi).
+- **Teklif formu:** `index.html` #contact → `functions/api/quote.js`. Brevo transactional API ile mail atar, reply-to müşterinin adresi. Honeypot alanı (`website`) ile basit spam koruması. Env: `BREVO_API_KEY` (secret, zorunlu), `QUOTE_TO_EMAIL` (opsiyonel).
+- **Görseller:** `images/hero-led-wall.jpg`, `images/led-closeup.jpg`, kökte `og-image.jpg`. Orijinaller ve işleme script'i `images/source/`.
+- **Yerel test:** `npx wrangler@4 pages dev . --port 8788 --binding BREVO_API_KEY=...`
+
 ## Dosyalar
+- index.html — Website
+- functions/ — Cloudflare Pages Functions (form API + erişim engeli)
 - LED_Wall_Hire_Test_Plan.md — Ana plan dökümanı (12 haftalık timeline)
 - Trust_Expo_Spec_Sheet.md — Spec sheet içeriği
 - email_signature.html — Gmail email signature
