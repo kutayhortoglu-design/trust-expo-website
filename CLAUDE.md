@@ -35,7 +35,7 @@
 ## Bekleyen Adımlar
 - [ ] Fatih abi ile görüşme (fiyatlama, teknik doğrulama, komisyon yapısı)
 - [ ] Sitedeki iddiaları Fatih ile doğrula: £5M Public Liability Insurance, "NEC'e 20 dk", Novastar processor, 160°/140° görüş açısı
-- [ ] Cloudflare Pages'e `BREVO_API_KEY` secret'ını ekle (yoksa form "not configured" hatası verir)
+- [x] Cloudflare Pages'e `BREVO_API_KEY` secret'ı eklendi, form canlıda test edildi (10 Kasım 2026)
 - [ ] GitHub reposunu private yapmayı değerlendir (CLAUDE.md, outreach listesi ve planlar şu an herkese açık)
 - [ ] Gerçek LED wall fotoğrafları çekilince AI görsellerini değiştir (mevcut kaynaklar sadece 512×512)
 - [ ] Figma spec sheet son düzeltmeleri (LED wall görseli, NEC Birmingham notu, fiyatlar)
@@ -71,6 +71,8 @@
 - **Dikkat:** Repo kökündeki her dosya siteye yüklenir. Gizli kalması gerekenler `functions/_middleware.js` ile 404'e çevriliyor (`.md`, `.py`, nokta ile başlayan dosyalar, `functions/`, `images/source/`, `Trust-Expo Stitch/`, `email_signature.html`). Yeni iç dosya eklerken bu listeyi kontrol et.
 - **Stil:** Tailwind CDN + Stitch tasarım token'ları (`index.html` içindeki `tailwind.config`). Tasarım kuralları: `Trust-Expo Stitch/DESIGN.md` (git'e eklenmedi).
 - **Teklif formu:** `index.html` #contact → `functions/api/quote.js`. Brevo transactional API ile mail atar, reply-to müşterinin adresi. Honeypot alanı (`website`) ile basit spam koruması. Env: `BREVO_API_KEY` (secret, zorunlu), `QUOTE_TO_EMAIL` (opsiyonel).
+  - `BREVO_API_KEY` bir **API key**'dir (`xkeysib-…`, Brevo → SMTP & API → API Keys). Gmail'in kullandığı SMTP key (`xsmtpsib-…`) ile karıştırma.
+  - Cloudflare'de değişken ekleyip/değiştirdikten sonra **yeni deploy** gerekir (Retry deployment veya boş commit push).
 - **Görseller:** `images/hero-led-wall.jpg`, `images/led-closeup.jpg`, kökte `og-image.jpg`. Orijinaller ve işleme script'i `images/source/`.
 - **Yerel test:** `npx wrangler@4 pages dev . --port 8788 --binding BREVO_API_KEY=...`
 
