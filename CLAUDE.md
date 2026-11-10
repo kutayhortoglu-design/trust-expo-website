@@ -40,7 +40,8 @@
 - [ ] Sitedeki iddiaları Fatih ile doğrula: £5M Public Liability Insurance, "NEC'e 20 dk", Novastar processor, 160°/140° görüş açısı
 - [x] Cloudflare Pages'e `BREVO_API_KEY` secret'ı eklendi, form canlıda test edildi (10 Kasım 2026)
 - [ ] GitHub reposunu private yapmayı değerlendir (CLAUDE.md, outreach listesi ve planlar şu an herkese açık)
-- [ ] Google Search Console: domain doğrula (Cloudflare DNS TXT), sitemap gönder
+- [x] Google Search Console kuruldu: domain property, Cloudflare DNS TXT ile doğrulandı (10 Kasım 2026)
+- [ ] Search Console: `https://trust-expo.com/sitemap.xml` gönderildiğini ve sayfanın indekslendiğini kontrol et
 - [ ] Google Business Profile aç (hizmet bölgesi işletmesi, adres gizli olabilir)
 - [ ] Backlink/listeleme: NEC exhibitor hizmet sağlayıcıları, fuar organizatörleri, yerel iş dizinleri
 - [ ] Gerçek LED wall fotoğrafları çekilince AI görsellerini değiştir (mevcut kaynaklar sadece 512×512)
