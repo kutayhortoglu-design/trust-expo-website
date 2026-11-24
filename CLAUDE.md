@@ -43,6 +43,7 @@
 - [ ] GitHub reposunu private yapmayı değerlendir (CLAUDE.md, outreach listesi ve planlar şu an herkese açık)
 - [x] Google Search Console kuruldu: domain property, Cloudflare DNS TXT ile doğrulandı (10 Kasım 2026)
 - [ ] Search Console: `https://trust-expo.com/sitemap.xml` gönderildiğini ve sayfanın indekslendiğini kontrol et
+- [ ] Cloudflare Turnstile widget'ı oluştur, `TURNSTILE_SITE_KEY` (Text) + `TURNSTILE_SECRET_KEY` (Secret) Production'a ekle, yeniden deploy et
 - [ ] Google Business Profile aç (hizmet bölgesi işletmesi, adres gizli olabilir)
 - [ ] Backlink/listeleme: NEC exhibitor hizmet sağlayıcıları, fuar organizatörleri, yerel iş dizinleri
 - [ ] Gerçek LED wall fotoğrafları çekilince hero stok fotoğrafını ve Specs bölümündeki AI görselini (512×512) değiştir
@@ -82,7 +83,9 @@
 - **SEO:** canonical adres `https://trust-expo.com/` (www → 301). Meta/OG/JSON-LD `index.html` <head> içinde. SSS cevapları ile FAQPage schema aynı metni kullanmalı. Yeni sayfa eklenirse `sitemap.xml`'e ekle.
 - **Önbellek:** `functions/_middleware.js` görsellere 30 gün, sürümlü CSS'e 1 yıl cache-control veriyor.
 - **Logo:** `favicon.svg/.ico`, `apple-touch-icon.png`, `icon-192/512.png`, `images/logo-mark-512.png`; üretici `images/source/make_icons.py`. Sitede (menü/footer/404) logo işareti kullanılmıyor, sadece "Trust Expo" yazısı var (kullanıcı tercihi); işaret yalnızca favicon olarak duruyor.
-- **Teklif formu:** `index.html` #contact → `functions/api/quote.js`. Brevo transactional API ile mail atar, reply-to müşterinin adresi. Honeypot alanı (`website`) ile basit spam koruması. Env: `BREVO_API_KEY` (secret, zorunlu), `QUOTE_TO_EMAIL` (opsiyonel).
+- **Teklif formu:** `index.html` #contact → `functions/api/quote.js`. Brevo transactional API ile mail atar, reply-to müşterinin adresi. Env: `BREVO_API_KEY` (secret, zorunlu), `QUOTE_TO_EMAIL` (opsiyonel), `TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` (bot koruması).
+  - **Spam koruması (katmanlı):** honeypot alanı (`website`); sayfa açıldıktan 3 sn içinde gönderilen ya da sayfa script'i olmadan doğrudan POST edilen istekler (`elapsed` yok) sessizce atılır (bota `ok:true` döner, mail gitmez); tüm yılları geçmişte olan etkinlik tarihleri (ör. 1977) reddedilir; **Cloudflare Turnstile** `TURNSTILE_SECRET_KEY` tanımlıysa zorunlu. Site key sayfaya `/api/form-config` ile gelir, script form görünür olunca yüklenir (`appearance: interaction-only`, çoğu ziyaretçi hiçbir şey görmez).
+  - Turnstile yerel test anahtarları: site `1x00000000000000000000AA`, secret `1x0000000000000000000000000000000AA` (hep geçer) / `2x0000000000000000000000000000000AA` (hep reddeder).
   - `BREVO_API_KEY` bir **API key**'dir (`xkeysib-…`, Brevo → SMTP & API → API Keys). Gmail'in kullandığı SMTP key (`xsmtpsib-…`) ile karıştırma.
   - Cloudflare'de değişken ekleyip/değiştirdikten sonra **yeni deploy** gerekir (Retry deployment veya boş commit push).
 - **Hero fotoğrafı:** Unsplash stok fotoğrafı (Wang Binghua, "Child walking toward large ocean screen", unsplash.com/photos/9QZWicWowTQ, Unsplash License: ticari kullanım serbest, atıf zorunlu değil). Dosyalar `images/hero-stage-{800,1440,2400}.webp`, orijinal `images/source/`. `og-image.jpg` da bundan üretildi. Gerçek iş fotoğrafı olunca değiştir.

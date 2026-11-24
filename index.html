@@ -153,7 +153,7 @@
 
 <!-- Performance: the hero photo is the largest element, fetch it first -->
 <link rel="preload" as="image" href="/images/hero-stage-1440.webp" imagesrcset="/images/hero-stage-800.webp 800w, /images/hero-stage-1440.webp 1440w, /images/hero-stage-2400.webp 2400w" imagesizes="100vw" type="image/webp" fetchpriority="high"/>
-<link rel="stylesheet" href="/assets/styles.css?v=49e4fee298"/>
+<link rel="stylesheet" href="/assets/styles.css?v=3662752a21"/>
 
 <!-- Fonts load without blocking the first paint -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -571,6 +571,8 @@
                         <label for="q-website">Website</label>
                         <input id="q-website" name="website" type="text" tabindex="-1" autocomplete="off"/>
                     </div>
+                    <!-- Cloudflare Turnstile bot check (only appears if a visitor looks suspicious) -->
+                    <div id="turnstile-box" class="flex justify-center empty:hidden"></div>
                     <button id="quote-submit" type="submit" class="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-b from-blue-500 to-blue-700 px-10 py-4 text-lg font-semibold text-white shadow-lg shadow-blue-700/30 ring-1 ring-inset ring-white/20 transition hover:from-blue-400 hover:to-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 disabled:opacity-60 disabled:cursor-wait">
                         Request My Free Quote
                     </button>
@@ -592,6 +594,43 @@
     var select = document.getElementById('q-package');
     var statusEl = document.getElementById('quote-status');
     var button = document.getElementById('quote-submit');
+    var loadedAt = Date.now();
+
+    // --- Bot protection: Cloudflare Turnstile, loaded only when the form is near ---
+    var turnstileWidget = null;
+    var turnstileRequired = false;
+    var configReady = null; // promise: resolves once we know whether Turnstile is on
+    function startTurnstile() {
+        if (configReady) return configReady;
+        configReady = fetch('/api/form-config').then(function (r) { return r.json(); }).then(function (cfg) {
+            if (!cfg || !cfg.turnstileSiteKey) return;
+            turnstileRequired = true;
+            window.onTurnstileLoad = function () {
+                turnstileWidget = window.turnstile.render('#turnstile-box', {
+                    sitekey: cfg.turnstileSiteKey,
+                    appearance: 'interaction-only',
+                    theme: 'light'
+                });
+            };
+            var s = document.createElement('script');
+            s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad';
+            s.async = true;
+            document.head.appendChild(s);
+        }).catch(function () {});
+        return configReady;
+    }
+    if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+            if (entries.some(function (en) { return en.isIntersecting; })) { startTurnstile(); io.disconnect(); }
+        }, { rootMargin: '600px' });
+        io.observe(form);
+    } else {
+        startTurnstile();
+    }
+    form.addEventListener('focusin', startTurnstile);
+    function resetTurnstile() {
+        if (turnstileWidget !== null && window.turnstile) window.turnstile.reset(turnstileWidget);
+    }
 
     // Package buttons pre-select the wall size in the form.
     document.querySelectorAll('[data-package]').forEach(function (link) {
@@ -636,9 +675,21 @@
         if (Object.keys(errors).length) return;
 
         button.disabled = true;
+        startTurnstile().then(function () {
+            if (turnstileRequired && (turnstileWidget === null || !window.turnstile || !window.turnstile.getResponse(turnstileWidget))) {
+                button.disabled = false;
+                setStatus('Running a quick security check… please press the button again in a moment.', false);
+                return;
+            }
+            send();
+        });
+    });
+
+    function send() {
         setStatus('Sending…', false);
         var payload = {};
         new FormData(form).forEach(function (v, k) { payload[k] = v; });
+        payload.elapsed = Date.now() - loadedAt;
 
         fetch(form.action, {
             method: 'POST',
@@ -653,13 +704,15 @@
                 return;
             }
             if (r.body.errors) showErrors(r.body.errors);
-            setStatus(r.body.error || 'Something went wrong. Please email sales@trust-expo.com.', true);
+            setStatus(r.body.error || (r.body.errors ? 'Please check the highlighted fields.' : 'Something went wrong. Please email sales@trust-expo.com.'), true);
+            resetTurnstile(); // tokens are single-use
         }).catch(function () {
+            resetTurnstile();
             setStatus('Connection problem. Please try again or email sales@trust-expo.com.', true);
         }).finally(function () {
             button.disabled = false;
         });
-    });
+    }
 })();
 </script>
 
